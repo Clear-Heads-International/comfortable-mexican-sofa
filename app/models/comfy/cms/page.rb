@@ -17,7 +17,6 @@ class Comfy::Cms::Page < ActiveRecord::Base
   belongs_to :target_page,
     class_name: "Comfy::Cms::Page",
     optional:   true
-
   has_many :translations,
     dependent: :destroy
 
