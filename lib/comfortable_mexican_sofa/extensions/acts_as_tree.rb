@@ -10,28 +10,27 @@ module ComfortableMexicanSofa::ActsAsTree
 
     def cms_acts_as_tree(options = {})
       configuration = {
-        foreign_key:    "parent_id",
-        order:          nil,
-        counter_cache:  nil,
-        dependent:      :destroy,
-        touch:          false
-      }
+        :foreign_key    => 'parent_id',
+        :order          => nil,
+        :counter_cache  => nil,
+        :dependent      => :destroy,
+        :touch          => false }
       configuration.update(options) if options.is_a?(Hash)
 
       belongs_to :parent,
-        optional:       true,
-        class_name:     name,
-        foreign_key:    configuration[:foreign_key],
-        counter_cache:  configuration[:counter_cache],
-        touch:          configuration[:touch]
+        :class_name     => name,
+        :foreign_key    => configuration[:foreign_key],
+        :counter_cache  => configuration[:counter_cache],
+        :touch          => configuration[:touch],
+        :optional       => true
 
       has_many :children,
-        -> { order(configuration[:order]) },
-        class_name:   name,
-        foreign_key:  configuration[:foreign_key],
-        dependent:    configuration[:dependent]
+        -> { order(configuration[:order])},
+        :class_name     => name,
+        :foreign_key    => configuration[:foreign_key],
+        :dependent      => configuration[:dependent]
 
-      class_eval <<-RUBY, __FILE__, __LINE__ + 1
+      class_eval <<-EOV
         include ComfortableMexicanSofa::ActsAsTree::InstanceMethods
 
         scope :roots, -> {
@@ -52,7 +51,7 @@ module ComfortableMexicanSofa::ActsAsTree
             end
           end
         end
-      RUBY
+      EOV
     end
 
   end
