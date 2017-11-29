@@ -15,10 +15,10 @@ class Comfy::Cms::File < ActiveRecord::Base
   # temporary place to store attachment
   attr_accessor :file
 
-  has_one_attached :attachment
-
   # -- Relationships -----------------------------------------------------------
+  belongs_to :block, optional: true
   belongs_to :site
+  has_one_attached :attachment
 
   # -- Callbacks ---------------------------------------------------------------
   before_validation :assign_label, on: :create
